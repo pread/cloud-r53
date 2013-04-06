@@ -36,7 +36,7 @@ import com.amazonaws.services.route53.model.ResourceRecord;
 import com.amazonaws.services.route53.model.ResourceRecordSet;
 import com.amazonaws.services.route53.rest.Route53Client;
 
-@Service
+@Service("route53Service")
 public class Route53ServiceImpl implements Route53Service {
 
     private static final Logger log = Logger.getLogger(Route53ServiceImpl.class);    
@@ -44,7 +44,7 @@ public class Route53ServiceImpl implements Route53Service {
     
 	/** Inject the Route 53 RESTFUL client. */
     @Autowired(required=true)
-    //@Qualifier("ec2Client")
+    @Qualifier("route53Client")
 	private Route53Client route53;
 	
 	/** Inject the Amazon EC2 client. */
@@ -52,7 +52,7 @@ public class Route53ServiceImpl implements Route53Service {
     @Qualifier("ec2Client")
 	private AmazonEC2 ec2;
 	
-    static ExpressionParser parser;
+    private static ExpressionParser parser;
     
 	public Route53ServiceImpl() {
 		super();

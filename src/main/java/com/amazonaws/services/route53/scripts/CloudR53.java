@@ -19,7 +19,7 @@ public class CloudR53 {
 	private static final String WILDCARD_DNS = "\\052";
 	private static final String CLOUDFOUNDRY_TAG = "cloudfoundry1";
 	
-	private static Route53Service route53;
+	protected static Route53Service route53;
     
 	/*
 	 * Arguments:

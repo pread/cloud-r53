@@ -40,14 +40,7 @@ public class DescribeDBInstancesTest {
     static AmazonRDS rds;
 
     static ExpressionParser parser;
-    
-	/**
-	 * Call the service layer for integration test.
-	 * @throws ParseException 
-	 * 
-	 * @throws Exception
-	 *             with any errors.
-	 */
+
 	@Test
 	public void getDescribeDBInstances() throws ParseException {
 

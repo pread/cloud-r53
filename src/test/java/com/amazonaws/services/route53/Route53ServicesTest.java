@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.amazonaws.services.route53.model.*;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,19 +20,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.amazonaws.services.route53.config.AppConfig;
-import com.amazonaws.services.route53.model.Change;
-import com.amazonaws.services.route53.model.ChangeBatch;
-import com.amazonaws.services.route53.model.ChangeResourceRecordSetsRequest;
-import com.amazonaws.services.route53.model.ChangeResourceRecordSetsResponse;
-import com.amazonaws.services.route53.model.ChangeResponse;
-import com.amazonaws.services.route53.model.CreateHostedZoneRequest;
-import com.amazonaws.services.route53.model.CreateHostedZoneResponse;
-import com.amazonaws.services.route53.model.HostedZoneResponse;
-import com.amazonaws.services.route53.model.ListHostedZonesResponse;
-import com.amazonaws.services.route53.model.ListResourceRecordSetsResponse;
-import com.amazonaws.services.route53.model.ResourceRecord;
-import com.amazonaws.services.route53.model.ResourceRecordSet;
-import com.amazonaws.services.utils.WatchUtils;
+import com.amazonaws.services.util.WatchUtils;
 
 /**
  * 
@@ -39,6 +28,7 @@ import com.amazonaws.services.utils.WatchUtils;
  */
 public class Route53ServicesTest  {
 
+    private static final String AWS_PUBLIC_DNS = "ec2-46-51-131-248.eu-west-1.compute.amazonaws.com";
 	private static final Format TIMESTAMP_FORMAT = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z");
 	
 	static Route53Service route53;
@@ -79,7 +69,7 @@ public class Route53ServicesTest  {
 		String type = "CNAME";
 		String ttl = "60";
 		
-		ResourceRecord record = new ResourceRecord("ec2-46-51-131-248.eu-west-1.compute.amazonaws.com");
+		ResourceRecord record = new ResourceRecord(AWS_PUBLIC_DNS);
 		List <ResourceRecord> resourceRecords = new ArrayList<ResourceRecord>();
 		resourceRecords.add(record);
 		ResourceRecordSet resourceRecordSet = 
@@ -122,6 +112,7 @@ public class Route53ServicesTest  {
 			pending = "PENDING".equals(changeStatus.getChangeInfo().getStatus());
 			i++;
 		}
+        assertNotNull(changeStatus.getChangeInfo().getStatus());
 		assertEquals("INSYNC", changeStatus.getChangeInfo().getStatus());
 		
 		System.out.println("Id: " + changeStatus.getChangeInfo().getId());

@@ -31,7 +31,7 @@ import com.amazonaws.services.route53.model.CreateHostedZoneRequest;
 import com.amazonaws.services.route53.model.CreateHostedZoneResponse;
 import com.amazonaws.services.route53.model.ResourceRecord;
 import com.amazonaws.services.route53.model.ResourceRecordSet;
-import com.amazonaws.services.utils.WatchUtils;
+import com.amazonaws.services.util.WatchUtils;
 
 /**
  * 

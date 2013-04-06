@@ -38,14 +38,7 @@ public class DescribeDBSnapshotsTest {
     static AmazonRDS rds;
 
     static ExpressionParser parser;
-    
-	/**
-	 * Call the service layer for integration test.
-	 * @throws ParseException 
-	 * 
-	 * @throws Exception
-	 *             with any errors.
-	 */
+
 	@Test
 	public void getDescribeSnapshots() throws ParseException {
 	    

@@ -31,7 +31,7 @@ import java.util.Map;
 /**
  * RESTful client implementation for AWS Route 53.
  */
-@Component
+@Component("route53Client")
 public class Route53ClientImpl implements Route53Client {
 
     private static final Logger log = Logger.getLogger(Route53ClientImpl.class);

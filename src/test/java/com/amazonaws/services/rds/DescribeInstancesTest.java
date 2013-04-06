@@ -41,14 +41,7 @@ public class DescribeInstancesTest {
     static AmazonEC2 ec2;
 
     static ExpressionParser parser;
-    
-	/**
-	 * Call the service layer for integration test.
-	 * @throws ParseException 
-	 * 
-	 * @throws Exception
-	 *             with any errors.
-	 */
+
 	@Test
 	public void getDescribeInstances() throws ParseException {
 	    
@@ -61,7 +54,7 @@ public class DescribeInstancesTest {
             	StandardEvaluationContext context = new StandardEvaluationContext(i);
 				Boolean running = (Boolean) parser.parseExpression("State.Code != 80").getValue(context);
             	
-				if(running.booleanValue()) {
+				if(running) {
        	
     				String name = (String) parser.parseExpression("Tags.?[Key == 'Name'][0].Value").getValue(context);
     				String shortName = (String) parser.parseExpression("Tags.?[Key == 'ShortName'].size() > 0 ? Tags.?[Key == 'ShortName'][0].Value : ''").getValue(context);

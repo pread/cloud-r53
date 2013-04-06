@@ -71,7 +71,7 @@ public class UpdateDnsInstancesTest {
     	StandardEvaluationContext context = new StandardEvaluationContext(result);
 		List<ResourceRecordSet> recordMatches = (List<ResourceRecordSet>) parser.parseExpression("ResourceRecordSet.?[Name == '" + name + "']").getValue(context);
 		
-		ChangeResourceRecordSetsRequest request = null;
+		ChangeResourceRecordSetsRequest request;
 		List<Change> changes = new ArrayList<Change>();
 		String comment = "Adding CNAME records for " + domain + " that points to " + name;
 		if (recordMatches.isEmpty()) {
@@ -112,15 +112,7 @@ public class UpdateDnsInstancesTest {
 		
 		return new Change(action, resourceRecordSet);
     }
-    
-    
-	/**
-	 * Call the service layer for integration test.
-	 * @throws ParseException 
-	 * 
-	 * @throws Exception
-	 *             with any errors.
-	 */
+
 	@Test
 	public void getUpdateDNSInstancesEC2() throws ParseException {
 		
@@ -133,7 +125,7 @@ public class UpdateDnsInstancesTest {
             	StandardEvaluationContext context = new StandardEvaluationContext(i);
 				Boolean running = (Boolean) parser.parseExpression("State.Code != 80").getValue(context);
             	
-				if (running.booleanValue()) {
+				if (running) {
        	
     				String name = (String) parser.parseExpression("Tags.?[Key == 'Name'][0].Value").getValue(context);
     				String shortName = (String) parser.parseExpression("Tags.?[Key == 'ShortName'].size() > 0 ? Tags.?[Key == 'ShortName'][0].Value : ''").getValue(context);
