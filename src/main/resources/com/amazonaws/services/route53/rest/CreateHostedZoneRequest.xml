@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/2010-10-01/">
+	<Name>example.com.</Name>
+	<CallerReference>myUniqueIdentifier</CallerReference>
+	<HostedZoneConfig>
+		<Comment>This is my first hosted zone.</Comment>
+	</HostedZoneConfig>
+</CreateHostedZoneRequest>
