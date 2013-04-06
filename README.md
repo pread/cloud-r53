@@ -1,0 +1,1 @@
+This is a tutorial demonstrating how to use Spring HTTP REST Client to call Amazon Web Service (AWS) Route 53 Service to update the DNS name of an image being launched/started using a tag name on the AWS image. 
