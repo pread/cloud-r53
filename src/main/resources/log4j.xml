@@ -1,23 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE log4j:configuration PUBLIC "-//LOGGER" "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
-<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
-	<appender name="CA" class="org.apache.log4j.ConsoleAppender">
-		<param name="Threshold" value="WARN"/>
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%-4r [%t] %-5p %c %x - %m%n" />
-		</layout>
-	</appender>
-	<appender name="FA" class="org.apache.log4j.FileAppender">
-		<param name="File" value="sample.log"/>
-		<param name="Threshold" value="WARN"/>
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%-4r [%t] %-5p %c %x - %m%n" />
-		</layout>
-	</appender>
-	<root>
-		<level value="ERROR" />
-		<appender-ref ref="CA" />
-		<appender-ref ref="FA" />
-	</root>
-</log4j:configuration>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d] %c %p - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="rollingLog" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="logs/route53cmd.log" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%-15.15t] %-5p %-30.30c{1} - %-10.10X{exchangeId} - %-10.10X{routeId} - %m%n"/>
+        </layout>
+    </appender>
+
+    <!--Change or add to these to get varied levels of logging for specific package-->
+    <logger name="com.amazonaws.services">
+        <level value="WARN"/>
+    </logger>
+
+    <logger name="org.springframework">
+        <level value="WARN"/>
+    </logger>
+
+    <logger name="org.apache.activemq.camel">
+        <level value="WARN"/>
+    </logger>
+
+    <logger name="org.apache.camel">
+        <level value="WARN"/>
+    </logger>
+
+    <logger name="org.hibernate.SQL">
+        <level value="WARN"/>
+    </logger>
+
+    <logger name="org.hibernate.type">
+        <level value="WARN"/>
+    </logger>
+
+    <logger name="org.hibernate.jdbc">
+        <level value="WARN"/>
+    </logger>
+
+    <!--Default logging configuration-->
+    <root>
+        <priority value="WARN"/>
+        <appender-ref ref="console"/>
+        <appender-ref ref="rollingLog"/>
+    </root>
+
+</log4j:configuration>

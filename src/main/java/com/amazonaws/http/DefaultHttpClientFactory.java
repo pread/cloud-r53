@@ -3,7 +3,6 @@ package com.amazonaws.http;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
@@ -16,7 +15,6 @@ import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
 import org.apache.http.client.HttpClient;
-import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.conn.scheme.LayeredSchemeSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
@@ -134,8 +132,7 @@ public class DefaultHttpClientFactory {
 		public Socket connectSocket(Socket sock,
 				InetSocketAddress remoteAddress,
 				InetSocketAddress localAddress, HttpParams params)
-				throws IOException, UnknownHostException,
-				ConnectTimeoutException {
+				throws IOException {
 			int connTimeout = HttpConnectionParams.getConnectionTimeout(params);
 			int soTimeout = HttpConnectionParams.getSoTimeout(params);
 
@@ -152,7 +149,7 @@ public class DefaultHttpClientFactory {
 		}
 
 		public Socket createLayeredSocket(Socket arg0, String arg1, int arg2, boolean arg3) 
-				throws IOException, UnknownHostException {
+				throws IOException {
 			return getSSLContext().getSocketFactory().createSocket();
 		}
 	}
@@ -177,6 +174,6 @@ public class DefaultHttpClientFactory {
 				throws CertificateException {
 			// No-op, to trust all certs
 		}
-	};
+	}
 }
 
