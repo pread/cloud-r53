@@ -44,6 +44,7 @@ public class DefaultHttpClientFactory {
 	 * @return The new, configured HttpClient.
 	 */
 	public HttpClient createHttpClient(ClientConfiguration config) {
+
         /* Form User-Agent information */
         String userAgent = config.getUserAgent();
         if (!(userAgent.equals(ClientConfiguration.DEFAULT_USER_AGENT))) {

@@ -19,6 +19,6 @@
 		then be used within application context files in the form of
 		${propertyKey}.
 	-->
-    <context:property-placeholder location="classpath*:META-INF/spring/*.properties,AwsCredentials.properties"/>
+    <context:property-placeholder location="classpath*:AwsCredentials.properties"/>
 
 </beans>
