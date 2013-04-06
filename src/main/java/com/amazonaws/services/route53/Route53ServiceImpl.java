@@ -6,10 +6,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
@@ -42,11 +43,13 @@ public class Route53ServiceImpl implements Route53Service {
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd hh:mm");
     
 	/** Inject the Route 53 RESTFUL client. */
-	@Inject
+    @Autowired(required=true)
+    //@Qualifier("ec2Client")
 	private Route53Client route53;
 	
 	/** Inject the Amazon EC2 client. */
-	@Inject
+	@Autowired(required=true)
+    @Qualifier("ec2Client")
 	private AmazonEC2 ec2;
 	
     static ExpressionParser parser;
@@ -116,8 +119,7 @@ public class Route53ServiceImpl implements Route53Service {
 	
 	public ChangeResponse changeStatus(String id) {
 		Map<String, String> vars = Collections.singletonMap("idchange", id);
-		ChangeResponse result = route53.request("/2010-10-01/{idchange}", HttpMethod.GET, vars, ChangeResponse.class);
-		return result;
+		return route53.request("/2010-10-01/{idchange}", HttpMethod.GET, vars, ChangeResponse.class);
 	}
 	
 	public ListHostedZonesResponse findAll() {
@@ -154,7 +156,7 @@ public class Route53ServiceImpl implements Route53Service {
 				Boolean running = (Boolean) parser.parseExpression("State.Code != 80").getValue(context);
 				Boolean tagsEmpty = (Boolean) parser.parseExpression("Tags.isEmpty()").getValue(context);
             	
-				if (running.booleanValue() && !tagsEmpty) {
+				if (running && !tagsEmpty) {
     				
 					String name = (String) parser.parseExpression("Tags.?[Key == 'Name'][0].Value").getValue(context);    				    				
     				String shortName = (String) parser.parseExpression("Tags.?[Key == 'ShortName'].size() > 0 ? Tags.?[Key == 'ShortName'][0].Value : ''").getValue(context);
@@ -192,7 +194,7 @@ public class Route53ServiceImpl implements Route53Service {
 				Boolean running = (Boolean) parser.parseExpression("State.Code != 80 and Tags.?[Key == 'ShortName'].size() > 0 ? State.Code != 80 and \"" + searchName + 
 						"\".equals(Tags.?[Key == 'ShortName'][0].Value) : false").getValue(context);
 								
-				if (running.booleanValue()) {
+				if (running) {
        	
     				String shortName = (String) parser.parseExpression("Tags.?[Key == 'ShortName'][0].Value").getValue(context);
                 	    	
@@ -221,7 +223,7 @@ public class Route53ServiceImpl implements Route53Service {
 			return new ChangeResourceRecordSetsResponse();
 		}
 
-		ChangeResourceRecordSetsRequest request = null;
+		ChangeResourceRecordSetsRequest request;
 		List<Change> changes = new ArrayList<Change>();
 		String zoneURI = matches.get(0).getId();
 		String zone = StringUtils.substringAfter(zoneURI, "/hostedzone/");

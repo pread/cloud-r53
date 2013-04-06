@@ -1,10 +1,11 @@
 package com.amazonaws.services.route53;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.amazonaws.services.ec2.AmazonEC2;
+import com.amazonaws.services.ec2.model.DescribeInstancesResult;
+import com.amazonaws.services.ec2.model.Instance;
+import com.amazonaws.services.ec2.model.Reservation;
+import com.amazonaws.services.route53.config.AppConfig;
+import com.amazonaws.services.route53.model.*;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,21 +15,10 @@ import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
-import com.amazonaws.services.ec2.AmazonEC2;
-import com.amazonaws.services.ec2.model.DescribeInstancesResult;
-import com.amazonaws.services.ec2.model.Instance;
-import com.amazonaws.services.ec2.model.Reservation;
-import com.amazonaws.services.route53.Route53Service;
-import com.amazonaws.services.route53.Route53ServiceImpl;
-import com.amazonaws.services.route53.config.AppConfig;
-import com.amazonaws.services.route53.model.Change;
-import com.amazonaws.services.route53.model.ChangeBatch;
-import com.amazonaws.services.route53.model.ChangeResourceRecordSetsRequest;
-import com.amazonaws.services.route53.model.ChangeResourceRecordSetsResponse;
-import com.amazonaws.services.route53.model.HostedZone;
-import com.amazonaws.services.route53.model.ListResourceRecordSetsResponse;
-import com.amazonaws.services.route53.model.ResourceRecord;
-import com.amazonaws.services.route53.model.ResourceRecordSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

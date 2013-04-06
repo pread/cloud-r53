@@ -1,24 +1,15 @@
 package com.amazonaws.services.route53.rest;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.xml.transform.Source;
-
+import com.amazonaws.services.route53.encoding.Encoding;
+import com.amazonaws.services.route53.model.*;
+import com.amazonaws.services.route53.util.XMLBuilder;
+import com.amazonaws.services.route53.util.XMLUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
@@ -30,24 +21,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.amazonaws.services.route53.encoding.Encoding;
-import com.amazonaws.services.route53.model.Change;
-import com.amazonaws.services.route53.model.ChangeInfo;
-import com.amazonaws.services.route53.model.ChangeResourceRecordSetsRequest;
-import com.amazonaws.services.route53.model.ChangeResourceRecordSetsResponse;
-import com.amazonaws.services.route53.model.ChangeResponse;
-import com.amazonaws.services.route53.model.Config;
-import com.amazonaws.services.route53.model.CreateHostedZoneRequest;
-import com.amazonaws.services.route53.model.CreateHostedZoneResponse;
-import com.amazonaws.services.route53.model.HostedZone;
-import com.amazonaws.services.route53.model.HostedZoneResponse;
-import com.amazonaws.services.route53.model.ListHostedZonesResponse;
-import com.amazonaws.services.route53.model.ListResourceRecordSetsResponse;
-import com.amazonaws.services.route53.model.NameServer;
-import com.amazonaws.services.route53.model.ResourceRecord;
-import com.amazonaws.services.route53.model.ResourceRecordSet;
-import com.amazonaws.services.route53.util.XMLBuilder;
-import com.amazonaws.services.route53.util.XMLUtil;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.xml.transform.Source;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * RESTful client implementation for AWS Route 53.
@@ -263,18 +242,16 @@ public class Route53ClientImpl implements Route53Client {
 					public NameServer mapNode(Node node, int i) throws DOMException {							
 						Element elem = (Element) node;
 						//Element name = (Element) elem.getElementsByTagName("NameServer").item(0);						
-						NameServer nameServer = new NameServer(elem.getTextContent());
-						return nameServer;
+						return new NameServer(elem.getTextContent());
 					}
 				});
     	
-		CreateHostedZoneResponse mappedPojo = new CreateHostedZoneResponse(HostedZone.with()
+		return new CreateHostedZoneResponse(HostedZone.with()
                 .id(id)
                 .name(name)
                 .callerRef(callerRef)
                 .config(new Config(comment != null ? comment : null))
                 .create(), changeInfo, list);
-	    return mappedPojo;
     }	
 	
 	private ListResourceRecordSetsResponse resourceRecordSetMapper(Source response) {
@@ -294,8 +271,7 @@ public class Route53ClientImpl implements Route53Client {
 									public ResourceRecord mapNode(Node node, int i) throws DOMException {							
 										Element elem = (Element) node;
 										Element value = (Element) elem.getElementsByTagName("Value").item(0);
-										ResourceRecord resourceRecord = new ResourceRecord(value.getTextContent());
-										return resourceRecord;
+										return new ResourceRecord(value.getTextContent());
 									}
 								});						
 						return ResourceRecordSet.with()

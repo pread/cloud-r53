@@ -1,4 +1,4 @@
-package com.amazonaws.services.utils;
+package com.amazonaws.services.util;
 
 import junit.framework.Assert;
 import org.springframework.util.StopWatch;

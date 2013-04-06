@@ -79,46 +79,7 @@ public class AppConfig {
 	
 	/** The proxy workstation. */
 	@Value("${r53.proxyWorkstation}") private String proxyWorkstation;
-	
-	/**
-	 * Aws credentials.
-	 *
-	 * @return the basic aws credentials
-	 */
-	private BasicAWSCredentials awsCredentials() {
-		if (StringUtils.isBlank(key) || StringUtils.isBlank(secret)) {
-	        return new BasicAWSCredentials(System.getenv("AWS_ACCESS_KEY_ID"), System.getenv("AWS_SECRET_ACCESS_KEY"));
-		}
-		return new BasicAWSCredentials(key, secret);
-	}
-	
-	/**
-	 * Client configuration.
-	 *
-	 * @return the client configuration
-	 */
-	private ClientConfiguration clientConfiguration() {
 
-		int proxyPortInt = StringUtils.isEmpty(proxyPort) ? 0 : Integer.valueOf(proxyPort).intValue();
-		return  (new ClientConfiguration())
-				            .withProxyHost(proxyHost)
-		                    .withProxyPort(proxyPortInt)
-		                    .withProxyUsername(proxyUsername)
-		                    .withProxyPassword(proxyPassword)
-		                    .withProxyWorkstation(proxyWorkstation)
-		                    .withProxyDomain(proxyDomain);
-    }
-	
-    /**
-     * Http client.
-     *
-     * @return the http client
-     */
-    private HttpClient httpClient() {
-    	DefaultHttpClientFactory clientFactory = new DefaultHttpClientFactory();
-    	return clientFactory.createHttpClient(clientConfiguration());
-    }
-	   
     /**
      * Ec2 client.
      *
@@ -294,5 +255,44 @@ public class AppConfig {
     	createHostedZoneXPath.setExpression("tns:CreateHostedZoneResponse/tns:DelegationSet/tns:NameServers/tns:NameServer");
         return createHostedZoneXPath;
     }
-    
+
+    /**
+     * Aws credentials.
+     *
+     * @return the basic aws credentials
+     */
+    private BasicAWSCredentials awsCredentials() {
+        if (StringUtils.isBlank(key) || StringUtils.isBlank(secret)) {
+            return new BasicAWSCredentials(System.getenv("AWS_ACCESS_KEY_ID"), System.getenv("AWS_SECRET_ACCESS_KEY"));
+        }
+        return new BasicAWSCredentials(key, secret);
+    }
+
+    /**
+     * Client configuration.
+     *
+     * @return the client configuration
+     */
+    private ClientConfiguration clientConfiguration() {
+
+        int proxyPortInt = StringUtils.isEmpty(proxyPort) ? 0 : Integer.valueOf(proxyPort);
+        return  (new ClientConfiguration())
+                .withProxyHost(proxyHost)
+                .withProxyPort(proxyPortInt)
+                .withProxyUsername(proxyUsername)
+                .withProxyPassword(proxyPassword)
+                .withProxyWorkstation(proxyWorkstation)
+                .withProxyDomain(proxyDomain);
+    }
+
+    /**
+     * Http client.
+     *
+     * @return the http client
+     */
+    private HttpClient httpClient() {
+        DefaultHttpClientFactory clientFactory = new DefaultHttpClientFactory();
+        return clientFactory.createHttpClient(clientConfiguration());
+    }
+
 }

@@ -52,15 +52,6 @@ public class Route53CreateTest  {
 	/**
 	 * Call the service layer for integration test.  
 	 */
-	public void createResourceRecordSetsRequest() {
-		String domain = "tangiblecloud.eu.";
-		String zone = "Z7C24NBIAZYD1";
-		changeResourceRecordSetsRequest(domain, zone);
-	}
-
-	/**
-	 * Call the service layer for integration test.  
-	 */
 	public void changeResourceRecordSetsRequest(String domain, String zone) {
 
 		WatchUtils.resetAllTasks();
