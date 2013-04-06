@@ -45,16 +45,6 @@ public class DescribeDBInstancesTest {
 	public void getDescribeDBInstances() throws ParseException {
 
 	   DescribeDBInstancesResult result = rds.describeDBInstances();
-      /*
-	   AuthorizeDBSecurityGroupIngressRequest authorise = new AuthorizeDBSecurityGroupIngressRequest();
-	   authorise.setDBSecurityGroupName("default");
-	   authorise.setCIDRIP("82.43.211.250/32");
-	   DBSecurityGroup group = rds.authorizeDBSecurityGroupIngress(authorise);
-
-       for(IPRange t : group.getIPRanges()) {
-          	System.out.println( "CIDRIP =  " + t.getCIDRIP() + " Status = " + t.getStatus());
-       }
-	   */
 	   
         for(DBInstance i : result.getDBInstances()) {
         	
@@ -80,15 +70,23 @@ public class DescribeDBInstancesTest {
                     	
                     }
         }
-        
-        /*
-        RestoreDBInstanceFromDBSnapshotRequest request = new RestoreDBInstanceFromDBSnapshotRequest();
-        request.setAvailabilityZone("eu-west-1b");
-        request.setDBInstanceIdentifier("enttstdb1");
-        request.setDBSnapshotIdentifier("test");
-        DBInstance x = rds.restoreDBInstanceFromDBSnapshot(request);
-        System.out.println("restored instance" + x.getDBInstanceIdentifier());
-        */
+
+//	   AuthorizeDBSecurityGroupIngressRequest authorise = new AuthorizeDBSecurityGroupIngressRequest();
+//	   authorise.setDBSecurityGroupName("default");
+//	   authorise.setCIDRIP("82.43.211.250/32");
+//	   DBSecurityGroup group = rds.authorizeDBSecurityGroupIngress(authorise);
+//
+//       for(IPRange t : group.getIPRanges()) {
+//          	System.out.println( "CIDRIP =  " + t.getCIDRIP() + " Status = " + t.getStatus());
+//       }
+//
+//        RestoreDBInstanceFromDBSnapshotRequest request = new RestoreDBInstanceFromDBSnapshotRequest();
+//        request.setAvailabilityZone("eu-west-1b");
+//        request.setDBInstanceIdentifier("devtstdb1");
+//        request.setDBSnapshotIdentifier("test");
+//        DBInstance x = rds.restoreDBInstanceFromDBSnapshot(request);
+//        System.out.println("restored instance" + x.getDBInstanceIdentifier());
+
 	}
 
 }
