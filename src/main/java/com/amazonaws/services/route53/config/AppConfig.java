@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.client.HttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -144,18 +143,7 @@ public class AppConfig {
     	}
         return rds;
     }
-    
-    /**
-     * Http client factory.
-     *
-     * @return the http components client http request factory
-     */
-    public @Bean HttpComponentsClientHttpRequestFactory httpClientFactory() {
-    	HttpComponentsClientHttpRequestFactory httpClientFactory = new HttpComponentsClientHttpRequestFactory();
-    	httpClientFactory.setHttpClient(httpClient());
-        return httpClientFactory;
-    }
-    
+
 	/**
 	 * Rest client.
 	 *
@@ -286,13 +274,15 @@ public class AppConfig {
     }
 
     /**
-     * Http client.
+     * Http client factory.
      *
-     * @return the http client
+     * @return the http components client http request factory
      */
-    private HttpClient httpClient() {
+    private HttpComponentsClientHttpRequestFactory httpClientFactory() {
+        HttpComponentsClientHttpRequestFactory httpClientFactory = new HttpComponentsClientHttpRequestFactory();
         DefaultHttpClientFactory clientFactory = new DefaultHttpClientFactory();
-        return clientFactory.createHttpClient(clientConfiguration());
+        httpClientFactory.setHttpClient(clientFactory.createHttpClient(clientConfiguration()));
+        return httpClientFactory;
     }
 
 }

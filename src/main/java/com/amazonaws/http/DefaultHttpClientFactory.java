@@ -20,7 +20,7 @@ import org.apache.http.conn.scheme.LayeredSchemeSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import  org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -64,8 +64,8 @@ public class DefaultHttpClientFactory {
         			Math.max(socketSendBufferSizeHint, socketReceiveBufferSizeHint));
         }
 
-        /* Set connection manager */
-        ThreadSafeClientConnManager connectionManager = ConnectionManagerFactory.createThreadSafeClientConnManager( config, httpClientParams );
+        /* Set connection manager ThreadSafeClientConnManager connectionManager = createThreadSafeClientConnManager */
+        PoolingClientConnectionManager connectionManager = ConnectionManagerFactory.createPoolingClientConnManager( config, httpClientParams );
         DefaultHttpClient httpClient = new DefaultHttpClient(connectionManager, httpClientParams);
 
 		/*
